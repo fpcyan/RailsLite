@@ -10,16 +10,19 @@ module Phase5
     # You haven't done routing yet; but assume route params will be
     # passed in as a hash to `Params.new` as below:
     def initialize(req, route_params = {})
-      query_string = req.query_string || query_string = ""
-      body_params_string = req.body || body_params_string = ""
+      @params = {}
+      @params.merge!(route_params)
+      if req.body
+        @params.merge!(parse_www_encoded_form(req.body))
+      end
 
-      query_params = parse_www_encoded_form(query_string)
-      req_body_params = parse_www_encoded_form(body_params_string)
-      @params = route_params.merge(query_params).merge(req_body_params)
+      if req.query_string
+        @params.merge!(parse_www_encoded_form(req.query_string))
+      end
     end
 
     def [](key)
-      @params[key]
+      @params[key.to_s] || @params[key.to_sym]
     end
 
     # this will be useful if we want to `puts params` in the server log
@@ -36,14 +39,31 @@ module Phase5
     # should return
     # { "user" => { "address" => { "street" => "main", "zip" => "89436" } } }
     def parse_www_encoded_form(www_encoded_form)
-      param_arrays = URI::decode_www_form(www_encoded_form)
-      param_arrays.reduce({}) { |accum, array| accum[array[0]] = array[1]; accum }
+      params = {}
+
+      key_values = URI.decode_www_form(www_encoded_form)
+      key_values.each do |full_key, value|
+        scope = params
+
+        key_seq = parse_key(full_key)
+        key_seq.each_with_index do |key, idx|
+          if (idx + 1) == key_seq.count
+            scope[key] = value
+          else
+            scope[key] ||= {}
+            scope = scope[key]
+          end
+        end
+      end
+
+      params
     end
 
     # this should return an array
     # user[address][street] should return ['user', 'address', 'street']
     def parse_key(key)
-      key.split(/\]\[|\[|\]/).
+      key.split(/\]\[|\[|\]/)
     end
+
   end
 end
