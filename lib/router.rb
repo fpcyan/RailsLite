@@ -49,7 +49,7 @@ class Router
   # evaluate the proc in the context of the instance
   # for syntactic sugar :)
   def draw(&proc)
-
+    p &proc
     self.instance_eval(&proc)
     # .result(binding)
   end
@@ -59,6 +59,37 @@ class Router
   # def route_adder(pattern, controller_class, action_name)
     # add_route(pattern, route_adder.name, controller_class, action_name)
   # end
+  DEFAULT_ACTIONS = {
+    index:   { pattern: "^/cats$", method: "get" },
+    show:    { pattern: "^/cats/(?<cat_id>\d+)", method: "get" },
+    new:     { pattern: "^/cats/new$", method: "get" },
+    edit:    { pattern: "^/cats/(?<cat_id>\d+)/edit$", method: "get" },
+    create:  { pattern: "^/cats$", method: "post" },
+    update:  { pattern: "^/cats/(?<cat_id>\d+)$", method: "put"},
+    destroy: { pattern: "^/cats/(?<cat_id>\d+)$", method: "delete" }
+  }
+
+  def resources(controller_noun, **action_names)
+    if action_names.length > 0
+      actions = parse_action_names(action_names)
+    else
+      actions = DEFAULT_ACTIONS.keys
+    end
+  end
+
+
+  def parse_action_names(action_names)
+    if action_names[:only]
+      actions = DEFAULT_ACTIONS.keys.map do |default_action|
+        default_action if action_names[:only].include?(default_action)
+      end
+    elsif action_names[:except]
+      actions = DEFAULT_ACTIONS.keys.map do |default_action|
+        default_action unless action_names[:except].include?(default_action)
+      end
+    end
+    actions.compact
+  end
 
   [:get, :post, :put, :delete].each do |http_method|
     define_method(http_method) do |pattern, controller_class, action_name|

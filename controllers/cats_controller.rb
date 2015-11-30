@@ -5,7 +5,7 @@ $cats = [
   { id: 1, name: "Curie" },
   { id: 2, name: "Markov" }
 ]
-class Cats2Controller < ControllerBase
+class CatsController < ControllerBase
   def index
     render_content($cats.to_s, "text/text")
   end
