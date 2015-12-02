@@ -7,7 +7,7 @@ Rails Lite currently features:
 * Parsing params from headers, queries, and forms to be sent to the body.
   - Supports the use of strong params.
 
-This project is a Work In Progress. Currently, dynamic routing based on "resources" and nested routes. On completion, resource routing will be integrated into [Whales][whales-link], written by [wdhorton][wdhorton].
+This project is a Work In Progress. Currently being developed: dynamic routing based on "resources" and nested routes. On completion, resource routing will be integrated into [Whales][whales-link], written by [wdhorton][wdhorton].
 
 
 [whales-link]: https://github.com/fpcyan/whales
