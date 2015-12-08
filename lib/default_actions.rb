@@ -1,26 +1,3 @@
-module CoreExtensions
-  module String
-    module Inflector
-      def singularize
-        return self unless self[-1] == "s"
-
-        self[-3..-1] == "ies" ? singular_irregular : singular_regular
-      end
-
-      def singular_irregular
-        self[0...-3] + "y"
-      end
-
-      def singular_regular
-        self[0...-1]
-      end
-
-    end
-  end
-end
-
-String.include CoreExtensions::String::Inflector
-
 class DefaultActions
   def initialize(resource)
     @resource = resource.to_s
