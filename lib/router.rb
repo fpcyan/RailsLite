@@ -67,7 +67,8 @@ class Router
       @last_parent_route = controller_noun
       yield
     else
-    build_resources(controller_noun, actions)
+      build_resources(controller_noun, actions)
+    end
   end
 
   def build_resources(controller_noun, actions)
