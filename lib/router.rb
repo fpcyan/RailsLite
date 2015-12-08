@@ -41,7 +41,6 @@ class Router
   def initialize
     @routes = []
     @last_parent_route = ""
-    @proc_hash
   end
 
   # simply adds a new route to the list of routes
