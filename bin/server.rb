@@ -21,15 +21,6 @@ end
 
 server.mount_proc("/") do |req, res|
 
-  # case [req.request_method, req.path]
-  # when ['GET', '/cats']
-  #   CatsController.new(req, res, {}).index
-  # when ['POST', '/cats']
-  #   CatsController.new(req, res, {}).create
-  # when ['GET', '/cats/new']
-  #   CatsController.new(req, res, {}).new
-  # end
-
   route = router.run(req, res)
 end
 

@@ -1,7 +1,3 @@
-require 'active_support'
-require 'active_support/core_ext'
-require 'active_support/inflector'
-
 class DefaultActions
   attr_reader :actions
   def initialize(resource)

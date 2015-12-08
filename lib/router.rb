@@ -1,6 +1,5 @@
 require_relative './default_actions'
 require_relative './resource'
-require 'byebug'
 class Route
   attr_reader :pattern, :http_method, :controller_class, :action_name
 
@@ -57,9 +56,6 @@ class Router
     self.instance_eval(&proc)
     # .result(binding)
   end
-
-  # think how to do this with singleton classes
-  # or class instances
 
   def resources(controller_noun, **action_restrictions)
     controller_actions = DefaultActions.new(controller_noun)
