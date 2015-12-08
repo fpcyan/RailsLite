@@ -15,7 +15,7 @@ class Resource
     if parent.empty?
       "^/"
     else
-      "^/#{parent}/(?<#{parent.singularize}_id>\d+)/"
+      "^/#{parent}/(?<#{parent.singularize}_id>\\d+)/"
     end
   end
 
