@@ -1,4 +1,5 @@
 require_relative './default_actions'
+require_relative './resource'
 class Route
   attr_reader :pattern, :http_method, :controller_class, :action_name
 
@@ -64,18 +65,16 @@ class Router
     controller_actions.parse_action_restrictions(action_restrictions)
 
     if block_given?
-      @last_parent_route = controller_noun
+      @last_parent_route = controller_noun.to_s
       yield
     else
-      build_resources(controller_noun, actions)
+      build_resources(controller_noun, controller_actions)
     end
   end
 
-  def build_resources(controller_noun, actions)
-    actions
-      .map do |action| controller_actions.action end
-      .map do |controller_action|
-        Resource.new(controller_noun, controller_action, @last_parent_route)
+  def build_resources(controller_noun, controller_actions)
+    controller_actions.actions.each do |action_name, action_hash|
+        Resource.new(controller_noun, action_name, action_hash[:suffix], @last_parent_route)
       end
   end
 

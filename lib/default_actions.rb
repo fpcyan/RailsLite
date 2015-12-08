@@ -17,31 +17,31 @@ class DefaultActions
   end
 
   def index
-    { index: { suffix: "", method: :get } }
+    { index: { suffix: "$", method: :get } }
   end
 
   def show
-    { show: { suffix: "/(?<#{@resource_id}>\d+)", method: :post } }
+    { show: { suffix: "/(?<#{@resource_id}>\d+)$", method: :post } }
   end
 
   def new
-    { new: { suffix: "/new", method: :get } }
+    { new: { suffix: "/new$", method: :get } }
   end
 
   def create
-    { create: { suffix: "", method: :post } }
+    { create: { suffix: "$", method: :post } }
   end
 
   def edit
-    { edit: { suffix: "/(?<#{@resource_id}>\d+)/edit", method: :get } }
+    { edit: { suffix: "/(?<#{@resource_id}>\d+)/edit$", method: :get } }
   end
 
   def update
-    { update: { suffix: "/(?<#{@resource_id}>\d+)", method: :put } }
+    { update: { suffix: "/(?<#{@resource_id}>\d+)$", method: :put } }
   end
 
   def destroy
-    { destroy: { suffix: "/(?<#{@resource_id}>\d+)", method: :delete } }
+    { destroy: { suffix: "/(?<#{@resource_id}>\d+)$", method: :delete } }
   end
 
   private
