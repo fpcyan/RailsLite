@@ -77,7 +77,7 @@ class Router
         resource = Resource.new(
           controller_noun, action_hash[:suffix], @last_parent_route
         )
-        send action_hash[:method], resource.pattern, resourse.classify, action_name
+        send action_hash[:method], resource.pattern, resource.classify, action_name
       end
   end
 
