@@ -60,8 +60,9 @@ class Router
   # or class instances
 
   def resources(controller_noun, **action_names)
+    controller_actions = DefaultActions.new(controller_noun)
     actions = action_names.empty? ?
-      DEFAULT_ACTIONS.keys : parse_action_names(action_names)
+      controller_actions.all : parse_action_names(action_names)
 
     if block_given?
       @last_parent_route = controller_noun
@@ -71,9 +72,11 @@ class Router
   end
 
   def build_resources(controller_noun, actions)
-    actions.map do |action|
-      Resource.new(controller_noun, action, @last_parent_route)
-    end
+    actions
+      .map do |action| controller_actions.action end
+      .map do |controller_action|
+        Resource.new(controller_noun, controller_action, @last_parent_route)
+      end
   end
   def parse_action_names(action_names)
     if action_names[:only]
