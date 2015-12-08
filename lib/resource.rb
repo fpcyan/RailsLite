@@ -1,10 +1,11 @@
 class Resource
+  attr_reader :pattern
 
   def initialize(noun, action_name, suffix, parent)
     @noun = noun.to_s
     @action_name = action_name
     @suffix = suffix
-    @parent = parent_route
+    @parent = parent
     @pattern = build_route_pattern
   end
 

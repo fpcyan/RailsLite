@@ -1,5 +1,6 @@
 require_relative './default_actions'
 require_relative './resource'
+require 'byebug'
 class Route
   attr_reader :pattern, :http_method, :controller_class, :action_name
 
@@ -63,7 +64,6 @@ class Router
   def resources(controller_noun, **action_restrictions)
     controller_actions = DefaultActions.new(controller_noun)
     controller_actions.parse_action_restrictions(action_restrictions)
-
     if block_given?
       @last_parent_route = controller_noun.to_s
       yield
@@ -74,7 +74,8 @@ class Router
 
   def build_resources(controller_noun, controller_actions)
     controller_actions.actions.each do |action_name, action_hash|
-        Resource.new(controller_noun, action_name, action_hash[:suffix], @last_parent_route)
+        resource = Resource.new(controller_noun, action_name, action_hash[:suffix], @last_parent_route)
+        byebug
       end
   end
 

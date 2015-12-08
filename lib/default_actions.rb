@@ -21,7 +21,7 @@ class DefaultActions
   end
 
   def show
-    { show: { suffix: "/(?<#{@resource_id}>\d+)$", method: :post } }
+    { show: { suffix: "/(?<#{@resource_id}>\\d+)$", method: :post } }
   end
 
   def new
@@ -33,15 +33,15 @@ class DefaultActions
   end
 
   def edit
-    { edit: { suffix: "/(?<#{@resource_id}>\d+)/edit$", method: :get } }
+    { edit: { suffix: "/(?<#{@resource_id}>\\d+)/edit$", method: :get } }
   end
 
   def update
-    { update: { suffix: "/(?<#{@resource_id}>\d+)$", method: :put } }
+    { update: { suffix: "/(?<#{@resource_id}>\\d+)$", method: :put } }
   end
 
   def destroy
-    { destroy: { suffix: "/(?<#{@resource_id}>\d+)$", method: :delete } }
+    { destroy: { suffix: "/(?<#{@resource_id}>\\d+)$", method: :delete } }
   end
 
   private
