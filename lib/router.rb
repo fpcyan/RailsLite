@@ -26,7 +26,6 @@ class Route
   # instantiate controller and call controller action
   def run(req, res)
     route_params = {}
-
     pattern_match = @pattern.match(req.path)
     unless pattern_match.nil?
       pattern_match.names.each { |name| route_params[name] = pattern_match[name] }
@@ -42,6 +41,7 @@ class Router
   def initialize
     @routes = []
     @last_parent_route = ""
+    @proc_hash
   end
 
   # simply adds a new route to the list of routes
@@ -52,19 +52,20 @@ class Router
   # evaluate the proc in the context of the instance
   # for syntactic sugar :)
   def draw(&proc)
-
     self.instance_eval(&proc)
     # .result(binding)
   end
 
-  def resources(controller_noun, **action_restrictions)
+  def resources(controller_noun, scope, **action_restrictions)
+    @last_parent_route = "" if scope == :parent
     controller_actions = DefaultActions.new(controller_noun)
     controller_actions.parse_action_restrictions(action_restrictions)
+    build_resources(controller_noun, controller_actions)
+
     if block_given?
       @last_parent_route = controller_noun.to_s
       yield
     end
-      build_resources(controller_noun, controller_actions)
   end
 
   def build_resources(controller_noun, controller_actions)
