@@ -23,6 +23,6 @@ class Resource
   end
 
   def classify
-    Object.const_get(@noun.capitalize + "Controller")
+    klass = Object.const_get(@noun.capitalize + "Controller")
   end
 end
