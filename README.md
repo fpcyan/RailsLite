@@ -3,12 +3,8 @@ Rails Lite is a web server MVC framework inspired by the functionality of Ruby o
 Rails Lite currently features:
 * Interfacing with the server (WEBrick) reading requests and providing responses
 * Custom routing through the controller to views
+  - routes are drawn from resources, with proper pathing for nested resources
+  - routes can create the default set of methods, or it can be restricted with :only and :except.
 * Reading and writing to cookies, allowing for data to persist across sessions
 * Parsing params from headers, queries, and forms to be sent to the body.
   - Supports the use of strong params.
-
-This project is a work in progress. Currently being developed: dynamic routing based on "resources" and nested routes. On completion, resource routing will be integrated into [Whales][whales-link], written by [wdhorton][wdhorton].
-
-
-[whales-link]: https://github.com/fpcyan/whales
-[wdhorton]: https://github.com/wdhorton
