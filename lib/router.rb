@@ -1,3 +1,4 @@
+require_relative './default_actions'
 class Route
   attr_reader :pattern, :http_method, :controller_class, :action_name
 

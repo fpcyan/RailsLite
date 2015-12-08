@@ -1,3 +1,7 @@
+require 'active_support'
+require 'active_support/core_ext'
+require 'active_support/inflector'
+
 class DefaultActions
   def initialize(resource)
     @resource = resource.to_s
