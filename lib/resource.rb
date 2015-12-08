@@ -1,3 +1,6 @@
+require 'active_support'
+require 'active_support/core_ext'
+require 'active_support/inflector'
 class Resource
   attr_reader :pattern
 
@@ -8,7 +11,7 @@ class Resource
 
   def build_route_pattern(suffix, parent)
     base = build_base(parent)
-    Regexp.new(base + @noun + @suffix)
+    Regexp.new(base + @noun + suffix)
   end
 
   def build_base(parent)
