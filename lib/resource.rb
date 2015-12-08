@@ -1,24 +1,25 @@
 class Resource
   attr_reader :pattern
 
-  def initialize(noun, action_name, suffix, parent)
+  def initialize(noun, suffix, parent)
     @noun = noun.to_s
-    @action_name = action_name
-    @suffix = suffix
-    @parent = parent
-    @pattern = build_route_pattern
+    @pattern = build_route_pattern(suffix, parent)
   end
 
-  def build_route_pattern
-    base = build_base
+  def build_route_pattern(suffix, parent)
+    base = build_base(parent)
     Regexp.new(base + @noun + @suffix)
   end
 
-  def build_base
-    if @parent.empty?
+  def build_base(parent)
+    if parent.empty?
       "^/"
     else
-      "^/#{@parent}/(?<#{@parent.singularize}_id>\d+)/"
+      "^/#{parent}/(?<#{parent.singularize}_id>\d+)/"
     end
+  end
+
+  def classify
+    Object.const_get(@noun.capitalize)
   end
 end
