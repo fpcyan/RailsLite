@@ -6,12 +6,13 @@ class DefaultActions
   def initialize(resource)
     @resource = resource.to_s
     @resource_id = @resource.singularize + "_id"
+    @actions = all
   end
 
-  def all
-    DefaultActions.instance_methods(false).drop(1).reduce({}) do |accum, method|
-      accum.merge(send(method))
-    end
+  def parse_action_restrictions(restrictions_hash)
+    raise "Arguments error" if restrictions_hash.size > 1
+    send(:only, restrictions_hash[:only]) if restrictions_hash[:only]
+    send(:except, restrictions_hash[:except]) if restrictions_hash[:except]
   end
 
   def index
@@ -42,5 +43,20 @@ class DefaultActions
     { destroy: { suffix: "/(?<#{@resource_id}>\d+)", method: :delete } }
   end
 
+  private
+
+    def all
+      DefaultActions.instance_methods(false).drop(1).reduce({}) do |accum, method|
+        accum.merge(send(method))
+      end
+    end
+
+    def only(action_names)
+      @actions.keep_if { |key, _| action_names.include?(key) }
+    end
+
+    def except(action_names)
+      @actions.keep_if { |key, _| !action_names.include?(key) }
+    end
 
 end

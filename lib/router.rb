@@ -59,10 +59,9 @@ class Router
   # think how to do this with singleton classes
   # or class instances
 
-  def resources(controller_noun, **action_names)
+  def resources(controller_noun, **action_restrictions)
     controller_actions = DefaultActions.new(controller_noun)
-    actions = action_names.empty? ?
-      controller_actions.all : parse_action_names(action_names)
+    controller_actions.parse_action_restrictions(action_restrictions)
 
     if block_given?
       @last_parent_route = controller_noun
@@ -77,18 +76,6 @@ class Router
       .map do |controller_action|
         Resource.new(controller_noun, controller_action, @last_parent_route)
       end
-  end
-  def parse_action_names(action_names)
-    if action_names[:only]
-      actions = DEFAULT_ACTIONS.keys.map do |default_action|
-        default_action if action_names[:only].include?(default_action)
-      end
-    elsif action_names[:except]
-      actions = DEFAULT_ACTIONS.keys.map do |default_action|
-        default_action unless action_names[:except].include?(default_action)
-      end
-    end
-    actions.compact
   end
 
   [:get, :post, :put, :delete].each do |http_method|
