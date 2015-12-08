@@ -63,9 +63,8 @@ class Router
     if block_given?
       @last_parent_route = controller_noun.to_s
       yield
-    else
-      build_resources(controller_noun, controller_actions)
     end
+      build_resources(controller_noun, controller_actions)
   end
 
   def build_resources(controller_noun, controller_actions)
