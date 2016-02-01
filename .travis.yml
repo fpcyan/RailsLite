@@ -2,7 +2,17 @@ language: ruby
 rvm:
   - "2.2.2"
   - "2.2.3"
-before_install: gem install bundler
+# before_install: gem install bundler happens automatically
+# install: bundle install happens automatically
 before_script: bundle install
-script: RAILS_ENV=test bundle exec rake rspec
-cache: bundler
+script: RAILS_ENV=test bundle exec rspec
+# after_success:
+# after_failure:
+#
+# before_deploy: (optional)
+# deploy: (optional)
+# after_deploy: (optional)
+#
+# after_script:
+#
+# cache: bundler
